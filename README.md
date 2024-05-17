@@ -1,2 +1,1 @@
-# gourmet-liff-app-backend
-liff gourmet app backend
+# 社内グルメ掲載LIFFアプリ　バックエンドコード
