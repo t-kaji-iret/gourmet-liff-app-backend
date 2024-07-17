@@ -13,6 +13,10 @@ Globals:
   Api:
     TracingEnabled: true
 Resources:
+  ApiGatewayApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
   ListFunction:
     Type: AWS::Serverless::Function
     Properties:
