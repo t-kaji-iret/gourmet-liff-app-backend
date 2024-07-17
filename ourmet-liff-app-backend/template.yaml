@@ -19,7 +19,7 @@ Resources:
     Properties:
       FunctionName: GET-LIST
       Role: iife-app-sam
-      CodeUri: list/ #ここ変える
+      CodeUri: /list #ここ変える
       Handler: app.lambda_handler #ここ変える
       Runtime: python3.11 #global化する
       Architectures:

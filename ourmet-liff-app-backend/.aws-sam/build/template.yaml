@@ -1,0 +1,80 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'ourmet-liff-app-backend
+
+  Sample SAM Template for ourmet-liff-app-backend
+
+  '
+Globals:
+  Function:
+    Timeout: 3
+    MemorySize: 128
+    Tracing: Active
+  Api:
+    TracingEnabled: true
+Resources:
+  ListFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GET-LIST
+      Role: iife-app-sam
+      CodeUri: ListFunction
+      Handler: app.lambda_handler
+      Runtime: python3.11
+      Architectures:
+      - x86_64
+      Events:
+        List:
+          Type: Api
+          Properties:
+            Path: /list
+            Method: get
+    Metadata:
+      SamResourceId: ListFunction
+  DetailFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GET-DETAIL
+      CodeUri: DetailFunction
+      Handler: app.lambda_handler
+      Runtime: python3.11
+      Architectures:
+      - x86_64
+      Events:
+        DetailFunction:
+          Type: Api
+          Properties:
+            Path: /detail
+            Method: get
+    Metadata:
+      SamResourceId: DetailFunction
+  ApplicationResourceGroup:
+    Type: AWS::ResourceGroups::Group
+    Properties:
+      Name:
+        Fn::Sub: ApplicationInsights-SAM-${AWS::StackName}
+      ResourceQuery:
+        Type: CLOUDFORMATION_STACK_1_0
+  ApplicationInsightsMonitoring:
+    Type: AWS::ApplicationInsights::Application
+    Properties:
+      ResourceGroupName:
+        Ref: ApplicationResourceGroup
+      AutoConfigurationEnabled: 'true'
+Outputs:
+  ListApi:
+    Description: API Gateway endpoint URL for Prod stage for Listfunction
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/list/
+  ListFunction:
+    Description: List Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - ListFunction
+      - Arn
+  ListFunctionIamRole:
+    Description: Implicit IAM Role created for Listfunction
+    Value:
+      Fn::GetAtt:
+      - ListFunctionRole
+      - Arn
