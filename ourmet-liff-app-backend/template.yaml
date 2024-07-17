@@ -19,24 +19,30 @@ Resources:
     Properties:
       FunctionName: GET-LIST
       Role: iife-app-sam
-      CodeUri: /list #ここ変える
-      Handler: app.lambda_handler #ここ変える
-      Runtime: python3.11 #global化する
+      CodeUri: /list
+      Handler: app.lambda_handler
+      Runtime: python3.11
       Architectures:
       - x86_64
       Events:
         List:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /list #ここ変える
+            Path: /list
             Method: get
+  
+  ListFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${ListFunction}
+      RetentionInDays: 14
   
   DetailFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       FunctionName: GET-DETAIL
-      CodeUri: detail/ #ここ変える
-      Handler: app.lambda_handler #ここ変える
+      CodeUri: detail/
+      Handler: app.lambda_handler
       Runtime: python3.11
       Architectures:
       - x86_64
@@ -44,8 +50,14 @@ Resources:
         DetailFunction:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /detail #ここ変える
+            Path: /detail
             Method: get
+  
+  DetailFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${DetailFunction}
+      RetentionInDays: 14
 
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group

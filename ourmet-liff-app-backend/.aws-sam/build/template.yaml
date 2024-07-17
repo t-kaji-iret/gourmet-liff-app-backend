@@ -31,6 +31,12 @@ Resources:
             Method: get
     Metadata:
       SamResourceId: ListFunction
+  ListFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName:
+        Fn::Sub: /aws/lambda/${ListFunction}
+      RetentionInDays: 14
   DetailFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -48,6 +54,12 @@ Resources:
             Method: get
     Metadata:
       SamResourceId: DetailFunction
+  DetailFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName:
+        Fn::Sub: /aws/lambda/${DetailFunction}
+      RetentionInDays: 14
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
     Properties:
