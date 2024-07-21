@@ -10,21 +10,17 @@ Globals:
     Timeout: 3
     MemorySize: 128
     Tracing: Active
+    Runtime: python3.11
   Api:
     TracingEnabled: true
 Resources:
-  ApiGatewayApi:
-    Type: AWS::Serverless::Api
-    Properties:
-      StageName: prod
   ListFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: GET-LIST
-      Role: iife-app-sam
+      Role: arn:aws:iam::328715503375:role/iife-app-sam
       CodeUri: ListFunction
       Handler: app.lambda_handler
-      Runtime: python3.11
       Architectures:
       - x86_64
       Events:
@@ -47,7 +43,6 @@ Resources:
       FunctionName: GET-DETAIL
       CodeUri: DetailFunction
       Handler: app.lambda_handler
-      Runtime: python3.11
       Architectures:
       - x86_64
       Events:
@@ -87,10 +82,4 @@ Outputs:
     Value:
       Fn::GetAtt:
       - ListFunction
-      - Arn
-  ListFunctionIamRole:
-    Description: Implicit IAM Role created for Listfunction
-    Value:
-      Fn::GetAtt:
-      - ListFunctionRole
       - Arn

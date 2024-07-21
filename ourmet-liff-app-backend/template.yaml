@@ -5,28 +5,41 @@ Description: >
 
   Sample SAM Template for ourmet-liff-app-backend
 
+# rote53でドメイン決定後 ApiGatewayのドメインを固定にする
+# Parameters:
+#   Stage:
+#     Type: String
+#     Default: Prod
+#   DomainName:
+#       Type: String
+#  BasePath:
+#    Type: String
+#    Default: v1
+#  DomainName:
+#    Type: String
+#  HostedZoneId:
+#    Type: String
+#  CertificateArn:
+#    Type: String
+
+
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
     Timeout: 3
     MemorySize: 128
     Tracing: Active
+    Runtime: python3.11
   Api:
     TracingEnabled: true
 Resources:
-  ApiGatewayApi:
-      Type: AWS::Serverless::Api
-      Properties:
-        StageName: prod
-
   ListFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       FunctionName: GET-LIST
-      Role: iife-app-sam
-      CodeUri: /list
+      Role: arn:aws:iam::328715503375:role/iife-app-sam
+      CodeUri: list/
       Handler: app.lambda_handler
-      Runtime: python3.11
       Architectures:
       - x86_64
       Events:
@@ -35,7 +48,6 @@ Resources:
           Properties:
             Path: /list
             Method: get
-  
   ListFunctionLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
@@ -48,7 +60,6 @@ Resources:
       FunctionName: GET-DETAIL
       CodeUri: detail/
       Handler: app.lambda_handler
-      Runtime: python3.11
       Architectures:
       - x86_64
       Events:
@@ -57,6 +68,19 @@ Resources:
           Properties:
             Path: /detail
             Method: get
+# rote53でドメイン決定後 ApiGatewayのドメインを設定する
+#  apiGateway:
+#    Type: AWS::Serverless::Api
+#    Properties:
+#      StageName: !Ref Stage
+#      Domain:
+#        DomainName: !Ref DomainName
+#        CertificateArn: !Ref CertificateArn
+#        EndpointConfiguration: EDGE
+#        Route53:
+#          HostedZoneId: !Ref {String}
+#        BasePath:
+#          - !Ref BasePath
   
   DetailFunctionLogGroup:
     Type: AWS::Logs::LogGroup
@@ -87,6 +111,6 @@ Outputs:
   ListFunction:
     Description: List Lambda Function ARN
     Value: !GetAtt ListFunction.Arn
-  ListFunctionIamRole:
-    Description: Implicit IAM Role created for Listfunction
-    Value: !GetAtt ListFunctionRole.Arn
+  #ListFunctionIamRole:
+  #  Description: Implicit IAM Role created for Listfunction
+  #  Value: !GetAtt ListFunctionRole.Arn
