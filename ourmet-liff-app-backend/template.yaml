@@ -5,24 +5,6 @@ Description: >
 
   Sample SAM Template for ourmet-liff-app-backend
 
-# rote53でドメイン決定後 ApiGatewayのドメインを固定にする
-# Parameters:
-#   Stage:
-#     Type: String
-#     Default: Prod
-#   DomainName:
-#       Type: String
-#  BasePath:
-#    Type: String
-#    Default: v1
-#  DomainName:
-#    Type: String
-#  HostedZoneId:
-#    Type: String
-#  CertificateArn:
-#    Type: String
-
-
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
@@ -72,15 +54,17 @@ Resources:
 #  apiGateway:
 #    Type: AWS::Serverless::Api
 #    Properties:
-#      StageName: !Ref Stage
+#      StageName: Prod
 #      Domain:
-#        DomainName: !Ref DomainName
-#        CertificateArn: !Ref CertificateArn
+#        DomainName: {www.example.com}
+#        CertificateArn: {arn-example}
 #        EndpointConfiguration: EDGE
 #        Route53:
-#          HostedZoneId: !Ref {String}
+#          HostedZoneId: {Z1PA6795UKMFR9}
 #        BasePath:
-#          - !Ref BasePath
+#          - foo
+#          - bar
+
   
   DetailFunctionLogGroup:
     Type: AWS::Logs::LogGroup
