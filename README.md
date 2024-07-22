@@ -1,5 +1,16 @@
 # 社内グルメ掲載LIFFアプリ　バックエンドコード
 
+=======
+## 環境構築
+### MySQL
+#### DBコンテナをビルド&起動
+プロジェクトルートにて以下コマンドを実行。
+```
+$ docker compose up -d --build
+``
+
+#lambda、samの準備
+
 # 事前準備 
 ## samのインストール
 https://docs.aws.amazon.com/ja_jp/lambda/latest/dg/csharp-package-sam.html
