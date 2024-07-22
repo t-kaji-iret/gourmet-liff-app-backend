@@ -50,19 +50,7 @@ Resources:
           Properties:
             Path: /detail
             Method: get
-# rote53でドメイン決定後 ApiGatewayのドメインを設定する
-#  apiGateway:
-#    Type: AWS::Serverless::Api
-#    Properties:
-#      StageName: Prod
-#      Domain:
-#        CertificateArn: {arn-example}
-#        EndpointConfiguration: EDGE
-#        BasePath:
-#          - foo
-#          - bar
-
-  
+            
   DetailFunctionLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
