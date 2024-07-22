@@ -30,6 +30,11 @@ region は ap-northeast-1
 sam build
 ```
 
+# ローカルでのapi起動
+```
+sam local start-api
+```
+
 # デプロイコマンド
 ```
 sam deploy
