@@ -29,8 +29,8 @@ sam build
 ```
 sam local start-api
 ```
-###　AWS SAMによるlambda、APIGatewayのデプロイ
-#### デプロイコマンド
+
+#### SAMによるlambda、APIGatewayのデプロイ
 ```
 sam deploy
 ```
