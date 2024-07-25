@@ -30,7 +30,7 @@ sam build
 sam local start-api
 ```
 
-###　AWS SAM によるlambda、API Gatewayのデプロイ
+###　AWS SAMによるlambda、APIGatewayのデプロイ
 #### デプロイコマンド
 ```
 sam deploy
