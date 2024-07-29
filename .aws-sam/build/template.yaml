@@ -17,7 +17,7 @@ Resources:
   ListFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: list
+      FunctionName: life-app-list
       Role: arn:aws:iam::328715503375:role/iife-app-sam
       CodeUri: ListFunction
       Handler: app.lambda_handler
@@ -40,7 +40,7 @@ Resources:
   DetailFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: detail
+      FunctionName: life-app-detail
       CodeUri: DetailFunction
       Handler: app.lambda_handler
       Architectures:
