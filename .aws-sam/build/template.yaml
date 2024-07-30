@@ -1,0 +1,85 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'ourmet-liff-app-backend
+
+  Sample SAM Template for ourmet-liff-app-backend
+
+  '
+Globals:
+  Function:
+    Timeout: 3
+    MemorySize: 128
+    Tracing: Active
+    Runtime: python3.11
+  Api:
+    TracingEnabled: true
+Resources:
+  ListFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: life-app-list
+      Role: arn:aws:iam::328715503375:role/iife-app-sam
+      CodeUri: ListFunction
+      Handler: app.lambda_handler
+      Architectures:
+      - x86_64
+      Events:
+        List:
+          Type: Api
+          Properties:
+            Path: /list
+            Method: get
+    Metadata:
+      SamResourceId: ListFunction
+  ListFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName:
+        Fn::Sub: /aws/lambda/${ListFunction}
+      RetentionInDays: 14
+  DetailFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: life-app-detail
+      CodeUri: DetailFunction
+      Handler: app.lambda_handler
+      Architectures:
+      - x86_64
+      Events:
+        DetailFunction:
+          Type: Api
+          Properties:
+            Path: /detail
+            Method: get
+    Metadata:
+      SamResourceId: DetailFunction
+  DetailFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName:
+        Fn::Sub: /aws/lambda/${DetailFunction}
+      RetentionInDays: 14
+  ApplicationResourceGroup:
+    Type: AWS::ResourceGroups::Group
+    Properties:
+      Name:
+        Fn::Sub: ApplicationInsights-SAM-${AWS::StackName}
+      ResourceQuery:
+        Type: CLOUDFORMATION_STACK_1_0
+  ApplicationInsightsMonitoring:
+    Type: AWS::ApplicationInsights::Application
+    Properties:
+      ResourceGroupName:
+        Ref: ApplicationResourceGroup
+      AutoConfigurationEnabled: 'true'
+Outputs:
+  ListApi:
+    Description: API Gateway endpoint URL for Prod stage for Listfunction
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/list/
+  ListFunction:
+    Description: List Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - ListFunction
+      - Arn
