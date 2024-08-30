@@ -1,0 +1,613 @@
+openapi: 3.0.1
+info:
+  version: 1.0.5
+  title: life アプリ API
+tags:
+  - name: 飲食店
+  - name: コメント
+  - name: お気に入り
+  - name: 画像
+paths:
+  /restaurant:
+    get:
+      tags:
+        - 飲食店
+      summary: 一覧
+      description: 店舗の一覧を取得する
+      parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+          required: true
+          description: トークン
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                        type: "object"
+                        properties:
+                          restaurant_id:
+                            type: number
+                            description: "飲食店id"
+                            example: 1
+                          name:
+                            type: string
+                            description: "飲食店名"
+                            example: "なか卯"
+                          nearest_station:
+                            type: string
+                            description: "最寄り駅"
+                            example: "新橋"
+                          genre:
+                            type: string
+                            description: "ジャンル"
+                            example: "1,2,3"
+                          last_updated_user:
+                            type: string
+                            description: "更新ユーザー名"
+                            example: ”あだち”
+                          image_url:
+                            type: string
+                            description: 画像URL
+                            example: 'htttps://~'
+                          restaurant_comment:
+                            type: string
+                            description: 飲食店登録者コメント
+                            example: '登録者コメント'
+                          created_at:
+                            type: string
+                            description: "作成日"
+                            example: "2024-08-02 20:04:34"
+                          updated_at:
+                            type: string
+                            description: "更新日"
+                            example: "2024-08-02 21:04:34"
+        '500':
+          $ref: "#/components/responses/UnexpectedError"
+    post:
+        tags:
+          - 飲食店
+        summary: 登録
+        description: "飲食店の登録する"
+        parameters:
+        - in: header
+          name: token
+          schema:
+            type: string
+          required: true
+          description: トークン
+        security:
+          - Bearer: []
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: 店名
+                    example: 'なか卯'
+                  nearest_station:
+                    type: string
+                    description: 最寄り駅
+                    example: '新橋'
+                  genre:
+                    type: string
+                    description: ジャンル
+                    example: '1,2,3'
+                  outside_website_url:
+                    type: string
+                    description: 外部サイトURL
+                    example: 'htttps://~'
+                  restaurant_comment:
+                            type: string
+                            description: 飲食店登録者コメント
+                            example: '登録者コメント'
+                required:
+                  - name
+                  - nearest_station
+                  - genre
+        responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                    type: object
+                    properties:
+                      restaurant_id:
+                        type: "number"
+                        description: "飲食店コード"
+                        example: 1
+          '500':
+            $ref: "#/components/responses/UnexpectedError"
+  /restaurant/{restaurant_id}:
+    get:
+      tags:
+        - 飲食店
+      summary: 詳細
+      description: "飲食店の詳細情報を取得"
+      parameters:
+         - in: header
+           name: "token"
+           description: "トークン"
+           required: true
+           schema:
+            type: string
+            example: ""
+         - in: query
+           name: "restaurant_id"
+           description: "飲食店id"
+           required: true
+           schema:
+            type: number
+            example: 1
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    restaurant_id:
+                      type: "number"
+                      description: "飲食店コード"
+                      example: 1
+                    restaurant_name:
+                              type: "string"
+                              description: "飲食店名"
+                              example: "なか卯"
+                    nearest_station:
+                            type: string
+                            description: "最寄り駅"
+                            example: "新橋"
+                    genre:
+                            type: string
+                            description: "ジャンル"
+                            example: "1,2,3"
+                    last_updated_user:
+                            type: string
+                            description: "更新ユーザー名"
+                            example: "あだち"
+                    outside_website_url:
+                            type: string
+                            description: 外部サイトURL
+                            example: 'htttps://~'
+                    restaurant_images:
+                            type: "array"
+                            items:
+                              type: "string"
+                              description: "スライドする画像のurl返す"
+                            example: 
+                              - "スライドする画像のurl返す1"
+                              - "スライドする画像のurl返す2"
+                              - "スライドする画像のurl返す3"
+                              - "スライドする画像のurl返す4"
+                              - "スライドする画像のurl返す5"
+                    restaurant_comment:
+                            type: string
+                            description: 飲食店登録者コメント
+                            example: '登録者コメント'
+                    restaurant_other_comment:
+                            type: "array"
+                            description: "飲食店に対するユーザーのコメント群"
+                            items:
+                              type: "object"
+                              properties:
+                                comment:
+                                  type: string
+                                  description: "コメント"
+                                  example: "確かにおいしかったです。"
+                                created_at:
+                                  type: string
+                                  description: "作成日"
+                                  example: "2024-08-02 20:04:34"
+                    created_at:
+                            type: string
+                            description: "作成日"
+                            example: "2024-08-02 20:04:34"
+                    updated_at:
+                            type: string
+                            description: "更新日"
+                            example: "2024-08-02 21:04:34"
+        '500':
+          $ref: "#/components/responses/UnexpectedError"
+    post:
+      tags:
+        - 飲食店
+      summary: 編集
+      description: "飲食店の編集する"
+      parameters:
+         - in: header
+           name: "token"
+           description: "トークン"
+           required: true
+           schema:
+            type: string
+            example: ""
+         - in: query
+           name: "restaurant_id"
+           description: "飲食店id"
+           required: true
+           schema:
+            type: number
+            example: 1
+      security:
+       - Bearer: []
+      requestBody:
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: 店名
+                      example: 'なか卯'
+                    nearest_station:
+                      type: string
+                      description: 最寄り駅
+                      example: '新橋'
+                    genre:
+                      type: string
+                      description: ジャンル
+                      example: '1,2,3'
+                    outside_website_url:
+                            type: string
+                            description: 外部サイトURL
+                            example: 'htttps://~'
+                    restaurant_comment:
+                            type: string
+                            description: 飲食店登録者コメント
+                            example: '登録者コメント'
+                    last_updated_user:
+                      type: string
+                      description: 更新ユーザー名
+                      example: ”あだち”
+                  required:
+                    - name
+                    - nearest_station
+                    - genre
+                    - last_updated_user
+      responses:
+            '200':
+              description: successful operation
+              content:
+                application/json:
+                  schema:
+                      type: object
+                      properties:
+                        restaurant_id:
+                          type: "number"
+                          description: "飲食店コード"
+                          example: 1
+            '500':
+              $ref: "#/components/responses/UnexpectedError"
+    delete:
+        tags:
+          - 飲食店
+        summary: 削除
+        description: "飲食店の情報を削除"
+        parameters:
+          - in: header
+            name: "token"
+            description: "トークン"
+            required: true
+            schema:
+              type: string
+              example: ""
+          - in: query
+            name: "restaurant_id"
+            description: "飲食店id"
+            required: true
+            schema:
+              type: number
+              example: 1
+        responses:
+          '200':
+            description: successful operation
+          '500':
+            $ref: "#/components/responses/UnexpectedError"
+  /image/upload/{restaurant_id}:
+    post:
+      tags:
+        - 画像
+      summary: 投稿
+      description: "飲食店画像を投稿する"
+      parameters:
+         - in: header
+           name: "token"
+           description: "トークン"
+           required: true
+           schema:
+            type: string
+            example: ""
+         - in: query
+           name: "restaurant_id"
+           description: "飲食店id"
+           required: true
+           schema:
+            type: number
+            example: 1
+      security:
+       - Bearer: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+                type: "array"
+                items:
+                  type: object
+                  properties:
+                    image_url:
+                      type: string
+                      description: 画像URL
+                      example: 'htttps://~'
+                    thumbnail_flg:
+                      type: boolean
+                      description: サムネイル画像かどうか
+                      example: false
+                required:
+                  - image_url
+                  - thumbnail_flg
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  restrant_id:
+                    type: integer
+                    description: 飲食店id
+                    example: 1
+        '500':
+          $ref: "#/components/responses/UnexpectedError"
+  /comment:
+    post:
+      tags:
+        - コメント
+      summary: コメント投稿
+      description: "コメントを投稿する"
+      parameters:
+         - in: header
+           name: "token"
+           description: "トークン"
+           required: true
+           schema:
+            type: string
+            example: ""
+      security:
+       - Bearer: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+                type: object
+                properties:
+                  restrant_id:
+                    type: integer
+                    description: 飲食店id
+                    example: 1
+                  user_id:
+                    type: integer
+                    description: ユーザーID
+                    example: 114
+                  comment:
+                    type: string
+                    description: コメント
+                    example: 'ユーザーのコメント'
+                required:
+                  - restrant_id
+                  - image_url
+                  - comment
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comment_id:
+                    type: integer
+                    description: コメントid
+                    example: 1
+        '500':
+          $ref: "#/components/responses/UnexpectedError"
+  /comment/{comment_id}:
+    post:
+      tags:
+        - コメント
+      summary: コメント編集
+      description: "コメントを編集する"
+      parameters:
+         - in: header
+           name: "token"
+           description: "トークン"
+           required: true
+           schema:
+            type: string
+            example: ""
+         - in: query
+           name: "comment_id"
+           description: "コメントid"
+           required: true
+           schema:
+            type: number
+            example: 1
+      security:
+       - Bearer: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+                type: object
+                properties:
+                  comment:
+                    type: string
+                    description: コメント
+                    example: 'ユーザーのコメント'
+                required:
+                  - comment
+      responses:
+        '200':
+          description: successful operation
+        '500':
+          $ref: "#/components/responses/UnexpectedError"
+    delete:
+      tags:
+        - コメント
+      summary: コメント削除
+      description: "コメントを削除する"
+      parameters:
+       - in: header
+         name: "token"
+         description: "トークン"
+         required: true
+         schema:
+           type: string
+           example: ""
+       - in: query
+         name: "comment_id"
+         description: "コメントid"
+         required: true
+         schema:
+          type: number
+          example: 1
+      security:
+       - Bearer: []
+      responses:
+        '200':
+          description: successful operation
+        '500':
+          $ref: "#/components/responses/UnexpectedError"
+  /favorite/{user_id}:
+    get:
+      tags:
+        - お気に入り
+      summary: お気に入り取得
+      description: "登録済みのお気に入りを取得する"
+      parameters:
+         - in: header
+           name: "token"
+           description: "トークン"
+           required: true
+           schema:
+            type: string
+            example: ""
+         - in: query
+           name: "user_id"
+           description: "ユーザーid"
+           required: true
+           schema:
+            type: number
+            example: 1
+      security:
+       - Bearer: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    favorites:
+                            type: "array"
+                            items:
+                              type: "integer"
+                              description: "飲食店IDのリストを返す"
+                            example: 
+                              - 1
+                              - 2
+                              - 3
+                              - 4
+                              - 5
+        '500':
+          $ref: "#/components/responses/UnexpectedError"
+  /favorite/{user_id}/{restaurant_id}:
+    put:
+      tags:
+        - お気に入り
+      summary: お気に入り登録/解除
+      description: "お気に入りの登録/解除を行う"
+      parameters:
+         - in: header
+           name: "token"
+           description: "トークン"
+           required: true
+           schema:
+            type: string
+            example: ""
+         - in: query
+           name: "user_id"
+           description: "ユーザーid"
+           required: true
+           schema:
+            type: number
+            example: 1
+         - in: query
+           name: "restaurant_id"
+           description: "飲食店id"
+           required: true
+           schema:
+            type: number
+            example: 1
+      security:
+       - Bearer: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    favorites:
+                            type: "array"
+                            items:
+                              type: "integer"
+                              description: "飲食店IDのリストを返す"
+                            example: 
+                              - 1
+                              - 2
+                              - 3
+                              - 4
+                              - 5
+        '500':
+          $ref: "#/components/responses/UnexpectedError"
+
+components:
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+      description: Credentials or access token for API
+  schemas:
+    Error:
+      description: エラー
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          description: エラーメッセージ
+          type: string
+          example: エラーです
+  responses:
+    $ref: '#/components/responses/OK'
+    UnexpectedError:
+      description: エラー
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
