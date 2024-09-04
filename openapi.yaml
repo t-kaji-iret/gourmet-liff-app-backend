@@ -6,6 +6,7 @@ tags:
   - name: 飲食店
   - name: コメント
   - name: お気に入り
+  - name: ジャンル
   - name: 画像
 paths:
   /restaurant:
@@ -551,6 +552,42 @@ paths:
                       type: "integer"
                       description: "お気に入り登録/解除された飲食店ID"
                       example: 1
+        '500':
+          $ref: "#/components/responses/UnexpectedError"
+  /genre:
+    post:
+      tags:
+        - ジャンル
+      summary: ジャンル一覧取得
+      description: "一覧絞り込み用のジャンルリストを返す"
+      parameters:
+         - in: header
+           name: "token"
+           description: "トークン"
+           required: true
+           schema:
+            type: string
+            example: ""
+      security:
+       - Bearer: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                  　genre_id:
+                     type: number
+                     description: "ジャンルID"
+                    example: 1
+                    name:
+                      type: string
+                      description: "ジャンル名"
+                      example: "和食"
         '500':
           $ref: "#/components/responses/UnexpectedError"
 components:
