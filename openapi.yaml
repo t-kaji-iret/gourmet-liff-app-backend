@@ -478,11 +478,15 @@ paths:
       responses:
         '200':
           description: successful operation
-          properties:
-            comment_id:
-              type: integer
-              description: コメントid
-              example: 1
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comment_id:
+                    type: integer
+                    description: コメントid
+                    example: 1
         '500':
           $ref: "#/components/responses/UnexpectedError"
     delete:
@@ -509,12 +513,7 @@ paths:
        - Bearer: []
       responses:
         '200':
-          description: successful operation
-          properties:
-            comment_id:
-              type: integer
-              description: コメントid
-              example: 1
+            description: successful operation
         '500':
           $ref: "#/components/responses/UnexpectedError"
   /favorite/{restaurant_id}:
@@ -555,21 +554,18 @@ paths:
         '500':
           $ref: "#/components/responses/UnexpectedError"
   /genre:
-    post:
+    get:
       tags:
         - ジャンル
-      summary: ジャンル一覧取得
-      description: "一覧絞り込み用のジャンルリストを返す"
+      summary: 一覧
+      description: ジャンルの一覧を取得する
       parameters:
-         - in: header
-           name: "token"
-           description: "トークン"
-           required: true
-           schema:
+        - in: header
+          name: token
+          schema:
             type: string
-            example: ""
-      security:
-       - Bearer: []
+          required: true
+          description: トークン
       responses:
         '200':
           description: successful operation
@@ -580,11 +576,11 @@ paths:
                 items:
                   type: "object"
                   properties:
-                  　genre_id:
-                     type: number
-                     description: "ジャンルID"
-                    example: 1
-                    name:
+                    genre_id:
+                      type: number
+                      description: "ジャンルid"
+                      example: 1
+                    genre_name:
                       type: string
                       description: "ジャンル名"
                       example: "和食"
@@ -610,7 +606,7 @@ components:
   responses:
     $ref: '#/components/responses/OK'
     UnexpectedError:
-      description: エラー
+      description: 'エラー'
       content:
         application/json:
           schema:
