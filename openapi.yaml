@@ -648,7 +648,6 @@ components:
           type: string
           example: エラーメッセージ内容を記載する
   responses:
-    $ref: '#/components/responses/OK'
     400Error:
       description: '400エラー'
       content:
