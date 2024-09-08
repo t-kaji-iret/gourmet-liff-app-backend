@@ -79,8 +79,12 @@ paths:
                             type: string
                             description: "更新日"
                             example: "2024-08-02 21:04:34"
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"  
         '500':
-          $ref: "#/components/responses/UnexpectedError"
+          $ref: "#/components/responses/500Error"
     post:
         tags:
           - 飲食店
@@ -137,8 +141,12 @@ paths:
                         type: "number"
                         description: "飲食店コード"
                         example: 1
+          '400':
+            $ref: "#/components/responses/400Error"
+          '401':
+            $ref: "#/components/responses/401Error"  
           '500':
-            $ref: "#/components/responses/UnexpectedError"
+            $ref: "#/components/responses/500Error"
   /restaurant/{restaurant_id}:
     get:
       tags:
@@ -229,8 +237,12 @@ paths:
                             type: string
                             description: "更新日"
                             example: "2024-08-02 21:04:34"
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"  
         '500':
-          $ref: "#/components/responses/UnexpectedError"
+          $ref: "#/components/responses/500Error"
     post:
       tags:
         - 飲食店
@@ -300,8 +312,12 @@ paths:
                           type: "number"
                           description: "飲食店コード"
                           example: 1
+            '400':
+              $ref: "#/components/responses/400Error"
+            '401':
+              $ref: "#/components/responses/401Error"
             '500':
-              $ref: "#/components/responses/UnexpectedError"
+              $ref: "#/components/responses/500Error"
     delete:
         tags:
           - 飲食店
@@ -325,8 +341,12 @@ paths:
         responses:
           '200':
             description: successful operation
+          '400':
+            $ref: "#/components/responses/400Error"
+          '401':
+            $ref: "#/components/responses/401Error"
           '500':
-            $ref: "#/components/responses/UnexpectedError"
+            $ref: "#/components/responses/500Error"
   /image/upload/{restaurant_id}:
     post:
       tags:
@@ -381,8 +401,12 @@ paths:
                     type: integer
                     description: 飲食店id
                     example: 1
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"
         '500':
-          $ref: "#/components/responses/UnexpectedError"
+          $ref: "#/components/responses/500Error"
   /comment:
     post:
       tags:
@@ -438,8 +462,12 @@ paths:
                           type: string
                           description: "作成日"
                           example: "2024-08-02 20:04:34"
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"
         '500':
-          $ref: "#/components/responses/UnexpectedError"
+          $ref: "#/components/responses/500Error"
   /comment/{comment_id}:
     post:
       tags:
@@ -487,8 +515,12 @@ paths:
                     type: integer
                     description: コメントid
                     example: 1
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"
         '500':
-          $ref: "#/components/responses/UnexpectedError"
+          $ref: "#/components/responses/500Error"
     delete:
       tags:
         - コメント
@@ -514,8 +546,12 @@ paths:
       responses:
         '200':
             description: successful operation
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"
         '500':
-          $ref: "#/components/responses/UnexpectedError"
+          $ref: "#/components/responses/500Error"
   /favorite/{restaurant_id}:
     post:
       tags:
@@ -551,8 +587,12 @@ paths:
                       type: "integer"
                       description: "お気に入り登録/解除された飲食店ID"
                       example: 1
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"
         '500':
-          $ref: "#/components/responses/UnexpectedError"
+          $ref: "#/components/responses/500Error"
   /genre:
     get:
       tags:
@@ -584,8 +624,12 @@ paths:
                       type: string
                       description: "ジャンル名"
                       example: "和食"
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"
         '500':
-          $ref: "#/components/responses/UnexpectedError"
+          $ref: "#/components/responses/500Error"
 components:
   securitySchemes:
     Bearer:
@@ -602,11 +646,23 @@ components:
         message:
           description: エラーメッセージ
           type: string
-          example: エラーです
+          example: エラーメッセージ内容を記載する
   responses:
     $ref: '#/components/responses/OK'
-    UnexpectedError:
-      description: 'エラー'
+    400Error:
+      description: '400エラー'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    401Error:
+      description: '401エラー'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    500Error:
+      description: '500エラー'
       content:
         application/json:
           schema:
