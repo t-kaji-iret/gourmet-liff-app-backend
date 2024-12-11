@@ -179,28 +179,6 @@ paths:
                     type: boolean
                     description: お気に入りフラグ
                     example: true
-                  replies:
-                    type: "array"
-                    description: "返信"
-                    items:
-                      type: "object"
-                      properties:
-                        id:
-                          type: "number"
-                          description: "返信ID"
-                          example: 1
-                        user_name:
-                          type: "string"
-                          description: "ユーザー名"
-                          example: "三浦"
-                        comment:
-                          type: string
-                          description: "コメント"
-                          example: "確かにおいしかったです。"
-                        created_at:
-                          type: string
-                          description: "作成日"
-                          example: "2024-08-02 20:04:34"
                   created_at:
                     type: string
                     description: "作成日"
@@ -304,6 +282,47 @@ paths:
         '500':
           $ref: "#/components/responses/500Error"
   /review/{review_id}/reply:
+    get:
+      tags:
+        - 返信
+      summary: 一覧
+      description: "返信の一覧を取得する"
+      parameters:
+        - in: path
+          name: "review_id"
+          description: "口コミID"
+          required: true
+          schema:
+            type: number
+            example: 1
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                    user_name:
+                      type: "string"
+                      description: "ユーザー名"
+                      example: "三浦"
+                    comment:
+                      type: string
+                      description: "コメント"
+                      example: "確かにおいしかったです。"
+                    created_at:
+                      type: string
+                      description: "作成日"
+                      example: "2024-08-02 20:04:34"
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"
+        '500':
+          $ref: "#/components/responses/500Error"
     post:
       tags:
         - 返信
