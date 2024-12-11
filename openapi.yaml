@@ -5,7 +5,7 @@ info:
   title: life アプリ API
 tags:
   - name: 口コミ
-  - name: コメント
+  - name: 返信
   - name: お気に入り
   - name: ジャンル
 security:
@@ -64,8 +64,8 @@ paths:
     post:
       tags:
         - 口コミ
-      summary: 登録
-      description: "口コミの登録する"
+      summary: 投稿
+      description: "口コミを投稿する"
       requestBody:
         content:
           application/json:
@@ -119,7 +119,7 @@ paths:
       tags:
         - 口コミ
       summary: 詳細
-      description: "口コミの詳細情報を取得"
+      description: "口コミの詳細情報を取得する"
       parameters:
         - in: path
           name: "id"
@@ -219,7 +219,7 @@ paths:
       tags:
         - 口コミ
       summary: 編集
-      description: "口コミの編集する"
+      description: "口コミを編集する"
       parameters:
         - in: path
           name: "id"
@@ -285,7 +285,7 @@ paths:
       tags:
         - 口コミ
       summary: 削除
-      description: "口コミの情報を削除"
+      description: "口コミを削除する"
       parameters:
         - in: path
           name: "ID"
@@ -306,9 +306,9 @@ paths:
   /review/{review_id}/reply:
     post:
       tags:
-        - コメント
-      summary: コメント投稿
-      description: "コメントを投稿する"
+        - 返信
+      summary: 登録
+      description: "返信を投稿する"
       parameters:
         - in: path
           name: "review_id"
@@ -364,9 +364,9 @@ paths:
   /review/{review_id}/reply/{reply_id}:
     put:
       tags:
-        - コメント
-      summary: コメント編集
-      description: "コメントを編集する"
+        - 返信
+      summary: 編集
+      description: "返信を編集する"
       parameters:
         - in: path
           name: "review_id"
@@ -377,7 +377,7 @@ paths:
             example: 1
         - in: path
           name: "reply_id"
-          description: "コメントID"
+          description: "返信ID"
           required: true
           schema:
             type: number
@@ -390,8 +390,8 @@ paths:
               properties:
                 comment:
                   type: string
-                  description: コメント
-                  example: 'ユーザーのコメント'
+                  description: 返信
+                  example: 'ユーザーの返信'
               required:
                 - comment
       responses:
@@ -402,9 +402,9 @@ paths:
               schema:
                 type: object
                 properties:
-                  comment_id:
+                  reply_id:
                     type: integer
-                    description: コメントid
+                    description: 返信ID
                     example: 1
         '400':
           $ref: "#/components/responses/400Error"
@@ -414,9 +414,9 @@ paths:
           $ref: "#/components/responses/500Error"
     delete:
       tags:
-        - コメント
-      summary: コメント削除
-      description: "コメントを削除する"
+        - 返信
+      summary: 削除
+      description: "返信を削除する"
       parameters:
         - in: path
           name: "review_id"
@@ -427,7 +427,7 @@ paths:
             example: 1
         - in: path
           name: "reply_id"
-          description: "コメントID"
+          description: "返信ID"
           required: true
           schema:
             type: number
@@ -445,8 +445,8 @@ paths:
     post:
       tags:
         - お気に入り
-      summary: お気に入り登録
-      description: "お気に入りの登録を行う"
+      summary: 登録
+      description: "お気に入りする"
       parameters:
         - in: path
           name: "review_id"
@@ -476,8 +476,8 @@ paths:
     delete:
       tags:
         - お気に入り
-      summary: お気に入り解除
-      description: "お気に入りの解除を行う"
+      summary: 解除
+      description: "お気に入り解除する"
       parameters:
         - in: path
           name: "review_id"
