@@ -9,6 +9,8 @@ tags:
   - name: お気に入り
   - name: ジャンル
   - name: 画像
+security:
+  - Bearer: [ ]
 paths:
   /restaurant:
     get:
@@ -16,13 +18,6 @@ paths:
         - 飲食店
       summary: 一覧
       description: 飲食店の一覧を取得する
-      parameters:
-        - in: header
-          name: token
-          schema:
-            type: string
-          required: true
-          description: トークン
       responses:
         '200':
           description: successful operation
@@ -72,15 +67,6 @@ paths:
         - 飲食店
       summary: 登録
       description: "飲食店の登録する"
-      parameters:
-        - in: header
-          name: token
-          schema:
-            type: string
-          required: true
-          description: トークン
-      security:
-        - Bearer: [ ]
       requestBody:
         content:
           application/json:
@@ -136,13 +122,6 @@ paths:
       summary: 詳細
       description: "飲食店の詳細情報を取得"
       parameters:
-        - in: header
-          name: "token"
-          description: "トークン"
-          required: true
-          schema:
-            type: string
-            example: ""
         - in: path
           name: "id"
           description: "ID"
@@ -239,13 +218,6 @@ paths:
       summary: 編集
       description: "飲食店の編集する"
       parameters:
-        - in: header
-          name: "token"
-          description: "トークン"
-          required: true
-          schema:
-            type: string
-            example: ""
         - in: path
           name: "id"
           description: "ID"
@@ -253,8 +225,6 @@ paths:
           schema:
             type: number
             example: 1
-      security:
-        - Bearer: [ ]
       requestBody:
         content:
           application/json:
@@ -314,13 +284,6 @@ paths:
       summary: 削除
       description: "飲食店の情報を削除"
       parameters:
-        - in: header
-          name: "token"
-          description: "トークン"
-          required: true
-          schema:
-            type: string
-            example: ""
         - in: path
           name: "ID"
           description: "飲食店ID"
@@ -344,13 +307,6 @@ paths:
       summary: コメント投稿
       description: "コメントを投稿する"
       parameters:
-        - in: header
-          name: "token"
-          description: "トークン"
-          required: true
-          schema:
-            type: string
-            example: ""
         - in: path
           name: "restaurant_id"
           description: "飲食店ID"
@@ -358,8 +314,6 @@ paths:
           schema:
             type: number
             example: 1
-      security:
-        - Bearer: [ ]
       requestBody:
         content:
           application/json:
@@ -411,13 +365,6 @@ paths:
       summary: コメント編集
       description: "コメントを編集する"
       parameters:
-        - in: header
-          name: "token"
-          description: "トークン"
-          required: true
-          schema:
-            type: string
-            example: ""
         - in: path
           name: "restaurant_id"
           description: "飲食店ID"
@@ -432,8 +379,6 @@ paths:
           schema:
             type: number
             example: 1
-      security:
-        - Bearer: [ ]
       requestBody:
         content:
           application/json:
@@ -470,13 +415,6 @@ paths:
       summary: コメント削除
       description: "コメントを削除する"
       parameters:
-        - in: header
-          name: "token"
-          description: "トークン"
-          required: true
-          schema:
-            type: string
-            example: ""
         - in: path
           name: "restaurant_id"
           description: "飲食店ID"
@@ -491,8 +429,6 @@ paths:
           schema:
             type: number
             example: 1
-      security:
-        - Bearer: [ ]
       responses:
         '200':
           description: successful operation
@@ -509,13 +445,6 @@ paths:
       summary: お気に入り登録
       description: "お気に入りの登録を行う"
       parameters:
-        - in: header
-          name: "token"
-          description: "トークン"
-          required: true
-          schema:
-            type: string
-            example: ""
         - in: path
           name: "restaurant_id"
           description: "飲食店ID"
@@ -523,8 +452,6 @@ paths:
           schema:
             type: number
             example: 1
-      security:
-        - Bearer: [ ]
       responses:
         '200':
           description: successful operation
@@ -549,13 +476,6 @@ paths:
       summary: お気に入り解除
       description: "お気に入りの解除を行う"
       parameters:
-        - in: header
-          name: "token"
-          description: "トークン"
-          required: true
-          schema:
-            type: string
-            example: ""
         - in: path
           name: "restaurant_id"
           description: "飲食店ID"
@@ -563,8 +483,6 @@ paths:
           schema:
             type: number
             example: 1
-      security:
-        - Bearer: [ ]
       responses:
         '200':
           description: successful operation
@@ -589,13 +507,6 @@ paths:
         - ジャンル
       summary: 一覧
       description: ジャンルの一覧を取得する
-      parameters:
-        - in: header
-          name: token
-          schema:
-            type: string
-          required: true
-          description: トークン
       responses:
         '200':
           description: successful operation
@@ -624,8 +535,10 @@ components:
   securitySchemes:
     Bearer:
       type: http
+      name: Authorization
+      in: header
       scheme: bearer
-      description: Credentials or access token for API
+      description: アクセストークン
   schemas:
     Error:
       description: エラー
