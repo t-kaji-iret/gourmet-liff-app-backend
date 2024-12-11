@@ -560,7 +560,7 @@ components:
       name: Authorization
       in: header
       scheme: bearer
-      description: アクセストークン
+      description: LINEアクセストークン
   schemas:
     Error:
       description: エラー
