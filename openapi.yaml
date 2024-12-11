@@ -8,7 +8,6 @@ tags:
   - name: コメント
   - name: お気に入り
   - name: ジャンル
-  - name: 画像
 security:
   - Bearer: [ ]
 paths:
@@ -176,6 +175,10 @@ paths:
                     type: string
                     description: コメント
                     example: 'コメント'
+                  is_favorite:
+                    type: boolean
+                    description: お気に入りフラグ
+                    example: true
                   replies:
                     type: "array"
                     description: "返信"
