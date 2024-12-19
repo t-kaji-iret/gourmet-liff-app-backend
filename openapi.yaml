@@ -8,6 +8,7 @@ tags:
   - name: 返信
   - name: お気に入り
   - name: ジャンル
+  - name: S3署名付きURL
 security:
   - Bearer: [ ]
 paths:
@@ -579,6 +580,50 @@ paths:
           $ref: "#/components/responses/401Error"
         '500':
           $ref: "#/components/responses/500Error"
+  /generate-signed-url:
+    post:
+      tags:
+        - S3署名付きURL
+      summary: 発行
+      description: "S3署名付きURLを発行する"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                paths:
+                  type: array
+                  description: "ファイルパスのリスト"
+                  items:
+                    type: "string"
+                    description: "ファイルパス"
+                    example: "images/1.jpg"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                    path:
+                      type: string
+                      description: "ファイルパス"
+                      example: "images/1.jpg"
+                    signed_url:
+                      type: string
+                      description: "S3署名付きURL"
+                      example: "https://~"
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"
+        '500':
+          $ref: "#/components/responses/500Error"
+
 components:
   securitySchemes:
     Bearer:
