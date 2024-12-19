@@ -39,10 +39,20 @@ paths:
                       type: string
                       description: "最寄り駅"
                       example: "新橋"
-                    genre:
-                      type: string
+                    genres:
+                      type: array
                       description: "ジャンル"
-                      example: "1,2,3"
+                      items:
+                        type: "object"
+                        properties:
+                          id:
+                            type: number
+                            description: "ID"
+                            example: 1
+                          name:
+                            type: string
+                            description: "ジャンル名"
+                            example: "和食"
                     image_url:
                       type: string
                       description: 画像URL
@@ -80,14 +90,17 @@ paths:
                   type: string
                   description: 最寄り駅
                   example: '新橋'
-                genre:
+                genres:
                   type: array
-                  description: ジャンル
-                  example: '1,2,3'
+                  description: "ジャンル"
+                  items:
+                    type: "integer"
+                    description: "ジャンルID"
+                    example: 1
                 website_url:
                   type: string
                   description: 外部サイトURL
-                  example: 'htttps://~'
+                  example: 'https://~'
                 comment:
                   type: string
                   description: コメント
@@ -148,10 +161,20 @@ paths:
                     type: string
                     description: "最寄り駅"
                     example: "新橋"
-                  genre:
-                    type: string
+                  genres:
+                    type: array
                     description: "ジャンル"
-                    example: "1,2,3"
+                    items:
+                      type: "object"
+                      properties:
+                        id:
+                          type: number
+                          description: "ID"
+                          example: 1
+                        name:
+                          type: string
+                          description: "ジャンル名"
+                          example: "和食"
                   user_name:
                     type: string
                     description: "更新ユーザー名"
@@ -220,10 +243,13 @@ paths:
                   type: string
                   description: 最寄り駅
                   example: '新橋'
-                genre:
-                  type: string
-                  description: ジャンル
-                  example: '1,2,3'
+                genres:
+                  type: array
+                  description: "ジャンル"
+                  items:
+                    type: "integer"
+                    description: "ジャンルID"
+                    example: 1
                 website_url:
                   type: string
                   description: 外部サイトURL
