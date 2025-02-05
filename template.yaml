@@ -1,22 +1,38 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  ourmet-liff-app-backend
+  グルメLIFFアプリのバックエンド用AWS SAMテンプレート
+  以下のリソースを管理する。
+    - API Gateway
+    - Lambda Function
+    - CloudWatch Logs
 
-  Sample SAM Template for ourmet-liff-app-backend
-
-# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 29
     MemorySize: 128
     Tracing: Active
     Runtime: python3.11
   Api:
     TracingEnabled: true
+
 Resources:
+  #################### API Gateway ####################
+  APIGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: gourmet-liff-app-api-gw
+      EndpointConfiguration: REGIONAL
+      StageName: prod
+      Cors:
+        AllowOrigin: "'https://d36s9gm15va9cu.cloudfront.net'"
+        AllowHeaders: "'Content-Type,Authorization'"
+        AllowMethods: "'POST, GET, OPTIONS, DELETE, PATCH, PUT'"
+        AllowCredentials: true
+
+  #################### Lambda Function ####################
   ListFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Type: AWS::Serverless::Function
     Properties:
       FunctionName: life-app-list
       Role: arn:aws:iam::328715503375:role/iife-app-sam
@@ -25,19 +41,15 @@ Resources:
       Architectures:
       - x86_64
       Events:
-        List:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+        ApiEvent:
+          Type: Api
           Properties:
-            Path: /list
+            Path: /api/list
             Method: get
-  ListFunctionLogGroup:
-    Type: AWS::Logs::LogGroup
-    Properties:
-      LogGroupName: !Sub /aws/lambda/${ListFunction}
-      RetentionInDays: 14
-  
+            RestApiId: !Ref APIGateway
+
   DetailFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Type: AWS::Serverless::Function
     Properties:
       FunctionName: life-app-detail
       CodeUri: detail/
@@ -45,41 +57,22 @@ Resources:
       Architectures:
       - x86_64
       Events:
-        DetailFunction:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+        ApiEvent:
+          Type: Api
           Properties:
-            Path: /detail
+            Path: /api/detail
             Method: get
-  
+            RestApiId: !Ref APIGateway
+
+  #################### CloudWatch Logs ####################
+  ListFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${ListFunction}
+      RetentionInDays: 14
+
   DetailFunctionLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
       LogGroupName: !Sub /aws/lambda/${DetailFunction}
       RetentionInDays: 14
-
-  ApplicationResourceGroup:
-    Type: AWS::ResourceGroups::Group
-    Properties:
-      Name:
-        Fn::Sub: ApplicationInsights-SAM-${AWS::StackName}
-      ResourceQuery:
-        Type: CLOUDFORMATION_STACK_1_0
-  ApplicationInsightsMonitoring:
-    Type: AWS::ApplicationInsights::Application
-    Properties:
-      ResourceGroupName:
-        Ref: ApplicationResourceGroup
-      AutoConfigurationEnabled: 'true'
-Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  ListApi:
-    Description: API Gateway endpoint URL for Prod stage for Listfunction
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/list/"
-  ListFunction:
-    Description: List Lambda Function ARN
-    Value: !GetAtt ListFunction.Arn
-  #ListFunctionIamRole:
-  #  Description: Implicit IAM Role created for Listfunction
-  #  Value: !GetAtt ListFunctionRole.Arn
