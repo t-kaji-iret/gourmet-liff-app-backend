@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS favorite
+(
+    id         BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    review_id  BIGINT UNSIGNED NOT NULL,
+    user_id    BIGINT UNSIGNED NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX (user_id),
+    INDEX (review_id)
+);
