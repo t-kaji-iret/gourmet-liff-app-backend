@@ -25,9 +25,26 @@ Resources:
       EndpointConfiguration: REGIONAL
       StageName: prod
       Cors:
-        AllowOrigin: "'https://d36s9gm15va9cu.cloudfront.net'"
+        AllowOrigin: "'*'"
         AllowHeaders: "'Content-Type,Authorization'"
         AllowMethods: "'POST, GET, OPTIONS, DELETE, PATCH, PUT'"
         AllowCredentials: true
 
   #################### Lambda Function ####################
+  # APIの作成例
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: hello-world
+      Role: arn:aws:iam::328715503375:role/iife-app-sam
+      CodeUri: ./app
+      Handler: app.lambda_handler
+      Architectures:
+        - arm64
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /hello-world
+            Method: get
+            RestApiId: !Ref APIGateway
