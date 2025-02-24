@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String
 from sqlalchemy.dialects.mysql import TINYINT
 from sqlalchemy.orm import Mapped
-from app.orm.base import Base
+from orm.base import Base
 
 
 # genreテーブルに対応するORMモデル

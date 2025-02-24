@@ -1,9 +1,9 @@
+from typing import TYPE_CHECKING
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.dialects.mysql import BIGINT
-from sqlalchemy.orm import Mapped, relationship
-from app.orm.base import Base
+from sqlalchemy.orm import Mapped
+from orm.base import Base
 import datetime
-from orm.models.user import User
 
 
 # reviewテーブルに対応するORMモデル
@@ -24,8 +24,6 @@ class Review(Base):
     updated_at: Mapped[datetime.datetime] = Column(
         DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow
     )
-
-    user: Mapped[User] = relationship("User", back_populates="reviews")
 
     def __repr__(self) -> str:
         return f"<Genre {self.name}>"

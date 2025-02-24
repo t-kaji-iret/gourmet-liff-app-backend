@@ -1,10 +1,8 @@
 from sqlalchemy import Column, String, DateTime, Boolean
 from sqlalchemy.dialects.mysql import BIGINT
-from sqlalchemy.orm import Mapped, relationship
-from app.orm.base import Base
+from sqlalchemy.orm import Mapped
+from orm.base import Base
 import datetime
-from orm.models.review import Review
-from orm.models.user import User
 
 
 # review_imageテーブルに対応するORMモデル
@@ -20,8 +18,6 @@ class ReviewImage(Base):
     created_at: Mapped[datetime.datetime] = Column(
         DateTime, default=datetime.datetime.utcnow
     )
-
-    review: Mapped[Review] = relationship("Review", back_populates="review_images")
 
     def __repr__(self) -> str:
         return f"<ReviewImage {self.id}>"

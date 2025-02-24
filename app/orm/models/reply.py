@@ -1,10 +1,8 @@
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.dialects.mysql import BIGINT
-from sqlalchemy.orm import Mapped, relationship
-from app.orm.base import Base
+from sqlalchemy.orm import Mapped
+from orm.base import Base
 import datetime
-from orm.models.user import User
-from orm.models.review import Review
 
 
 # replyテーブルに対応するORMモデル
@@ -23,9 +21,6 @@ class reply(Base):
     updated_at: Mapped[datetime.datetime] = Column(
         DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow
     )
-
-    review: Mapped[Review] = relationship("Review", back_populates="replies")
-    user: Mapped[User] = relationship("User", back_populates="replies")
 
     def __repr__(self) -> str:
         return f"<Genre {self.id}>"
