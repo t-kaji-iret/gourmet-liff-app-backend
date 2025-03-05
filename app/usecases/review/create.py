@@ -13,29 +13,28 @@ def create(
         user: User,
         session: Session
 ) -> Review:
-    with session as db:
-        genres = db.query(Genre).filter(Genre.id.in_(review_request.genres)).all()
-        if len(genres) != len(review_request.genres):
-            raise NotFoundException("存在しないジャンルです。")
+    genres = session.query(Genre).filter(Genre.id.in_(review_request.genres)).all()
+    if len(genres) != len(review_request.genres):
+        raise NotFoundException("存在しないジャンルです。")
 
-        review = Review(
-            user_id=user.id,
-            restaurant_name=review_request.restaurant_name,
-            nearest_station=review_request.nearest_station,
-            comment=review_request.comment,
-            url=review_request.url
+    review = Review(
+        user_id=user.id,
+        restaurant_name=review_request.restaurant_name,
+        nearest_station=review_request.nearest_station,
+        comment=review_request.comment,
+        url=review_request.url
+    )
+    session.add(review)
+    session.flush()
+
+    restaurant_genres = []
+    for genre in genres:
+        restaurant_genre = RestaurantGenre(
+            review_id=review.id,
+            genre_id=genre.id
         )
-        db.add(review)
-        db.flush()
+        restaurant_genres.append(restaurant_genre)
+    session.add_all(restaurant_genres)
 
-        restaurant_genres = []
-        for genre in genres:
-            restaurant_genre = RestaurantGenre(
-                review_id=review.id,
-                genre_id=genre.id
-            )
-            restaurant_genres.append(restaurant_genre)
-        db.add_all(restaurant_genres)
-
-        session.commit()
+    session.commit()
     return review

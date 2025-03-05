@@ -24,7 +24,6 @@ TestSession = sessionmaker(
 
 
 @pytest.fixture(scope="function")
-@contextmanager
 def setup_db():
     command.downgrade(alembic_cfg, "base")
     command.upgrade(alembic_cfg, "head")
