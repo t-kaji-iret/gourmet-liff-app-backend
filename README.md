@@ -60,4 +60,14 @@ poetry export -f requirements.txt --output requirements.txt
 
 ※ パッケージ追加後は上記コマンドを実行するようにしてください。でないとsam build時にLambda環境に反映されません。
 
+## テストコード
 
+### ルール
+
+- 基本的にはIntegration Testを書く
+- 複雑なビジネスロジックがある場合はUnit Testも書く
+
+### 自動テスト
+
+- mainブランチへのPR/push時にGitHub Actionsで自動テストが実行されます
+- テストが通らない場合はマージできません

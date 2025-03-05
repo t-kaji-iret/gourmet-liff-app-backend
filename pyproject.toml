@@ -3,7 +3,7 @@ name = "app"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "skipo"}
+    { name = "skipo" }
 ]
 readme = "README.md"
 requires-python = "==3.11"
