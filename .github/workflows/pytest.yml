@@ -34,7 +34,7 @@ jobs:
 
       # 依存関係をインストール
       - name: Install dependencies with Poetry
-        run: poetry install
+        run: poetry install --no-root
 
       # Docker Compose をセットアップ
       - name: Set up Docker Compose
@@ -44,10 +44,6 @@ jobs:
       - name: Start Docker containers
         run: |
           docker-compose -f docker-compose.yml up -d --build
-      # コンテナ起動待機
-      - name: Wait for DB to be ready
-        run: |
-          sleep 120
       # テストを実行
       - name: Run tests with pytest
         run: |
