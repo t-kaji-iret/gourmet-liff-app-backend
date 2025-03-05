@@ -13,7 +13,7 @@ alembic_cfg = Config(os.path.abspath(__file__ + "/../../app/alembic.test.ini"))
 os.chdir(os.path.abspath(__file__ + "/../../app"))
 
 # テスト用DBに接続するための設定
-test_engine = create_engine('mysql+pymysql://root:password@localhost:3306/test-gourmet-app', echo=True)
+test_engine = create_engine('mysql+pymysql://root:password@gourmet-app-db:3306/test-gourmet-app', echo=True)
 TestSession = sessionmaker(
     autocommit=False,
     autoflush=True,
