@@ -28,7 +28,7 @@ jobs:
       # テストを実行
       - name: Run tests with pytest
         run: |
-          docker-compose exec test-app poetry run pytest --disable-warnings -q -s
+          docker-compose exec -T test-app poetry run pytest --disable-warnings -q -s
 
       # テスト後にコンテナを停止
       - name: Stop Docker containers
