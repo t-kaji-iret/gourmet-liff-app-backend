@@ -12,14 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v3
       - uses: Kesin11/actions-timeline@v2
-      - uses: docker/setup-buildx-action@v3
+      - uses: actions/checkout@v3
 
       # コンテナをセットアップ
       - name: Start Docker containers
         run: |
-          docker-compose -f docker-compose.yml up -d --build
+          docker compose -f docker-compose.yml up -d --build
 
       - name: Wait for services to start
         run: |
@@ -28,9 +27,9 @@ jobs:
       # テストを実行
       - name: Run tests with pytest
         run: |
-          docker-compose exec -T test-app poetry run pytest --disable-warnings -q -s
+          docker compose exec -T test-app poetry run pytest --disable-warnings -q -s
 
       # テスト後にコンテナを停止
       - name: Stop Docker containers
         run: |
-          docker-compose -f docker-compose.yml down
+          docker compose -f docker-compose.yml down
