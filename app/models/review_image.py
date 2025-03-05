@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, DateTime, Boolean
 from sqlalchemy.dialects.mysql import BIGINT
 from sqlalchemy.orm import Mapped
-from orm.base import Base
+from base import Base
 import datetime
 
 

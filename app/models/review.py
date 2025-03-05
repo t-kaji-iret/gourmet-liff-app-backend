@@ -1,20 +1,22 @@
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.dialects.mysql import BIGINT
 from sqlalchemy.orm import Mapped
-from orm.base import Base
+from base import Base
 import datetime
 
 
-# replyテーブルに対応するORMモデル
-class reply(Base):
-    __tablename__ = "reply"
+# reviewテーブルに対応するORMモデル
+class Review(Base):
+    __tablename__ = "review"
 
     id: Mapped[int] = Column(
         BIGINT(unsigned=True), primary_key=True, autoincrement=True
     )
-    review_id: Mapped[int] = Column(BIGINT(unsigned=True), nullable=False)
     user_id: Mapped[int] = Column(BIGINT(unsigned=True), nullable=False)
-    body: Mapped[str] = Column(String(255), nullable=False)
+    restaurant_name: Mapped[str] = Column(String(255), nullable=False)
+    nearest_station: Mapped[str] = Column(String(255), nullable=False)
+    comment: Mapped[str] = Column(String(255), nullable=False)
+    url: Mapped[str] = Column(String(255), nullable=True)
     created_at: Mapped[datetime.datetime] = Column(
         DateTime, default=datetime.datetime.utcnow
     )

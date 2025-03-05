@@ -9,9 +9,9 @@ class ReviewCreateResponse(BaseModel):
         orm_mode = True
 
 
-class ReviewCreate(BaseModel):
-    name: str
+class ReviewCreateRequest(BaseModel):
+    restaurant_name: str
     nearest_station: str
     genres: Optional[list[int]] = None
-    website_url: Optional[str] = None
+    url: Optional[str] = None
     comment: str

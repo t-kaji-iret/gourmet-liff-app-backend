@@ -1,23 +1,20 @@
-from typing import TYPE_CHECKING
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.dialects.mysql import BIGINT
 from sqlalchemy.orm import Mapped
-from orm.base import Base
+from base import Base
 import datetime
 
 
-# reviewテーブルに対応するORMモデル
-class Review(Base):
-    __tablename__ = "review"
+# replyテーブルに対応するORMモデル
+class Reply(Base):
+    __tablename__ = "reply"
 
     id: Mapped[int] = Column(
         BIGINT(unsigned=True), primary_key=True, autoincrement=True
     )
+    review_id: Mapped[int] = Column(BIGINT(unsigned=True), nullable=False)
     user_id: Mapped[int] = Column(BIGINT(unsigned=True), nullable=False)
-    restaurant_name: Mapped[str] = Column(String(255), nullable=False)
-    nearest_station: Mapped[str] = Column(String(255), nullable=False)
-    comment: Mapped[str] = Column(String(255), nullable=False)
-    url: Mapped[str] = Column(String(255), nullable=True)
+    body: Mapped[str] = Column(String(255), nullable=False)
     created_at: Mapped[datetime.datetime] = Column(
         DateTime, default=datetime.datetime.utcnow
     )
@@ -26,4 +23,4 @@ class Review(Base):
     )
 
     def __repr__(self) -> str:
-        return f"<Genre {self.name}>"
+        return f"<Genre {self.id}>"

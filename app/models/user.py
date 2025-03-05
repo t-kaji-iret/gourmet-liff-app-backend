@@ -2,9 +2,8 @@ from typing import List
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.dialects.mysql import TINYINT, BIGINT
 from sqlalchemy.orm import Mapped, relationship
-from app.orm.base import Base
+from base import Base
 import datetime
-from orm.models.favorite import Favorite
 
 
 # userテーブルに対応するORMモデル
@@ -24,8 +23,6 @@ class User(Base):
     updated_at: Mapped[datetime.datetime] = Column(
         DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow
     )
-
-    favorites: Mapped[List[Favorite]] = relationship("Favorite", back_populates="user")
 
     def __repr__(self) -> str:
         return f"<User {self.id}>"

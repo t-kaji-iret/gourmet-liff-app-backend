@@ -27,6 +27,13 @@ Parameters:
     AllowedValues:
       - prod
       - local
+  IS_TEST:
+    Description: テスト実行フラグ
+    Type: String
+    Default: false
+    AllowedValues:
+      - true
+      - false
 
 Resources:
   #################### API Gateway ####################
@@ -50,11 +57,11 @@ Resources:
       FunctionName: review-post
       Role: arn:aws:iam::328715503375:role/iife-app-sam
       CodeUri: ./app
-      Handler: router.lambda_handler
+      Handler: main.lambda_handler
       Events:
         ApiEvent:
           Type: Api
           Properties:
             Path: /review
-            Method: get
+            Method: post
             RestApiId: !Ref APIGateway

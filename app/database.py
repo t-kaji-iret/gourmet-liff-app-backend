@@ -1,11 +1,11 @@
+import contextlib
 import os
-from contextlib import contextmanager
 from sqlalchemy import create_engine
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import sessionmaker
-from collections.abc import Generator
 
 if os.getenv('STAGE') == 'local':
-    engine = create_engine('mysql+pymysql://admin:password@localhost:3306/gourmet-app-db', echo=True)
+    engine = create_engine('mysql+pymysql://root:password@localhost:3306/gourmet-app', echo=True)
 else:
     # TODO: RDSのエンドポイントを設定する
     pass
@@ -13,20 +13,19 @@ else:
 Session = sessionmaker(
     autocommit=False,
     autoflush=True,
+    expire_on_commit=False,
     bind=engine
 )
 
 
-@contextmanager
-def session_factory() -> Generator[Session, None, None]:
+@contextlib.contextmanager
+def session_factory() -> Session:
     session = Session()
-    e = None
     try:
         yield session
-    except Exception as e:
+        session.commit()
+    except SQLAlchemyError as e:
         session.rollback()
         raise e
     finally:
-        if e is None:
-            session.commit()
         session.close()

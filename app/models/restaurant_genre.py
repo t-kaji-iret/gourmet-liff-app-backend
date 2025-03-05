@@ -1,7 +1,7 @@
 from sqlalchemy import Column
 from sqlalchemy.dialects.mysql import BIGINT
 from sqlalchemy.orm import Mapped
-from orm.base import Base
+from base import Base
 
 
 # restaurant_genreテーブルに対応するORMモデル

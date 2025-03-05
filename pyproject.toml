@@ -1,0 +1,33 @@
+[project]
+name = "app"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "skipo"}
+]
+readme = "README.md"
+requires-python = "==3.11"
+dependencies = [
+    "requests (>=2.32.3,<3.0.0)",
+    "pymysql (>=1.1.1,<2.0.0)",
+    "cryptography (>=44.0.1,<45.0.0)",
+    "sqlalchemy (>=2.0.38,<3.0.0)",
+    "boto3 (>=1.36.26,<2.0.0)",
+    "pytest (>=8.3.4,<9.0.0)",
+    "fastapi (>=0.115.8,<0.116.0)",
+    "mangum (>=0.19.0,<0.20.0)",
+    "httpx (>=0.28.1,<0.29.0)",
+    "pytest-env (>=1.1.5,<2.0.0)",
+    "pytest-mysql (>=3.1.0,<4.0.0)",
+    "alembic (>=1.14.1,<2.0.0)",
+    "aws-lambda-powertools (>=3.7.0,<4.0.0)",
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+
