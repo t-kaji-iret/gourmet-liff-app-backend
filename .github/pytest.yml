@@ -1,0 +1,58 @@
+name: pytest
+
+on:
+  pull_request:
+    types: [ opened, reopened, synchronize ]
+    branches:
+      - main
+
+jobs:
+  pytest:
+    name: Run tests with pytest
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      # Python3.11をイントール
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11.0
+
+      # Poetry をインストール
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      # バージョン指定
+      - name: Set Python version for Poetry
+        run: |
+          poetry env use python3.11
+
+      # 依存関係をインストール
+      - name: Install dependencies with Poetry
+        run: poetry install
+
+      # Docker Compose をセットアップ
+      - name: Set up Docker Compose
+        run: |
+          sudo apt-get install docker-compose
+      # DB をセットアップ
+      - name: Start Docker containers
+        run: |
+          docker-compose -f docker-compose.yml up -d --build
+      # コンテナ起動待機
+      - name: Wait for DB to be ready
+        run: |
+          sleep 120
+      # テストを実行
+      - name: Run tests with pytest
+        run: |
+          poetry run pytest --disable-warnings -q -s
+      # テスト後にコンテナを停止
+      - name: Stop Docker containers
+        run: |
+          docker-compose -f docker-compose.yml down

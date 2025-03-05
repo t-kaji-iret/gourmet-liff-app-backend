@@ -13,6 +13,24 @@ services:
     networks:
       backend:
 
+  test-app:
+    build:
+      context: .
+      dockerfile: ./docker/python/Dockerfile
+    container_name: test-app
+    volumes:
+      - .:/liff-app-backend
+    working_dir: /liff-app-backend
+    environment:
+      - DATABASE_URL=mysql://user:password@db/my_database
+    depends_on:
+      - db
+    networks:
+      - backend
+    ports:
+      - "8081:8081"
+    tty: true
+
 # ホスト上にDocker管理のボリュームを作成(名前付きボリューム)
 volumes:
   gourmet-app-mysql-volume:

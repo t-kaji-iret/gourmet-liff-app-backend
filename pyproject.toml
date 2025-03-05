@@ -5,7 +5,6 @@ description = ""
 authors = [
     { name = "skipo" }
 ]
-readme = "README.md"
 requires-python = "==3.11"
 dependencies = [
     "requests (>=2.32.3,<3.0.0)",
@@ -22,7 +21,6 @@ dependencies = [
     "alembic (>=1.14.1,<2.0.0)",
     "aws-lambda-powertools (>=3.7.0,<4.0.0)",
 ]
-
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
