@@ -24,6 +24,19 @@ jobs:
         run: |
           sleep 15
 
+      - name: Wait for MySQL to be ready
+        run: |
+          for i in {1..30}; do
+            if docker-compose exec -T goourmet-app-db mysqladmin ping -h 127.0.0.1 -u root -ppassword --silent; then
+              echo "MySQL is up!"
+              exit 0
+            fi
+            echo "Waiting for MySQL..."
+            sleep 2
+          done
+          echo "MySQL did not start in time" >&2
+          exit 1
+
       # テストを実行
       - name: Run tests with pytest
         run: |
