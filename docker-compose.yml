@@ -12,6 +12,8 @@ services:
       - ./docker/mysql/:/docker-entrypoint-initdb.d
     networks:
       backend:
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u root -ppassword
 
   test-app:
     build:
@@ -24,7 +26,8 @@ services:
     environment:
       - DATABASE_URL=mysql://user:password@db/my_database
     depends_on:
-      - db
+      mysql:
+        condition: service_healthy
     networks:
       - backend
     ports:
