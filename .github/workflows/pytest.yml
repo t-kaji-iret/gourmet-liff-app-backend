@@ -28,7 +28,7 @@ jobs:
         run: |
           for i in {1..30}; do
             if docker-compose exec -T goourmet-app-db mysqladmin ping -h 127.0.0.1 -u root -ppassword --silent; then
-              echo "MySQL is up!"
+              echo "MySQL is up!!"
               exit 0
             fi
             echo "Waiting for MySQL..."
