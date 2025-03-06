@@ -24,6 +24,9 @@ jobs:
         run: |
           sleep 15
 
+      - name: Show MySQL logs
+        run: docker compose logs gourmet-app-db
+
       - name: Wait for MySQL to be ready
         run: |
           for i in {1..30}; do
