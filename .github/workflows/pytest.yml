@@ -1,0 +1,51 @@
+name: pytest
+
+on:
+  pull_request:
+    types: [ opened, reopened, synchronize ]
+    branches:
+      - main
+
+jobs:
+  pytest:
+    name: Run tests with pytest
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: Kesin11/actions-timeline@v2
+      - uses: actions/checkout@v3
+
+      # コンテナをセットアップ
+      - name: Start Docker containers
+        run: |
+          docker compose -f docker-compose.yml up -d --build
+
+      - name: Wait for services to start
+        run: |
+          sleep 15
+
+      - name: Show MySQL logs
+        run: docker compose logs db
+
+      - name: Wait for MySQL to be ready
+        run: |
+          for i in {1..30}; do
+            if docker compose exec -T db mysqladmin ping -h 127.0.0.1 -u root -ppassword --silent; then
+              echo "MySQL is up!"
+              exit 0
+            fi
+            echo "Waiting for MySQL..."
+            sleep 2
+          done
+          echo "MySQL did not start in time" >&2
+          exit 1
+
+      # テストを実行
+      - name: Run tests with pytest
+        run: |
+          docker compose exec -T test-app poetry run pytest --disable-warnings -q -s
+
+      # テスト後にコンテナを停止
+      - name: Stop Docker containers
+        run: |
+          docker compose -f docker-compose.yml down

@@ -128,7 +128,7 @@ paths:
           $ref: "#/components/responses/401Error"
         '500':
           $ref: "#/components/responses/500Error"
-  /review/{id}:
+  /review/{review_id}:
     get:
       tags:
         - 口コミ

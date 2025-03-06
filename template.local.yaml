@@ -13,8 +13,27 @@ Globals:
     MemorySize: 128
     Tracing: Active
     Runtime: python3.11
+    Environment:
+      Variables:
+        STAGE: !Ref STAGE
   Api:
     TracingEnabled: true
+
+Parameters:
+  STAGE:
+    Description: 環境名
+    Type: String
+    Default: local
+    AllowedValues:
+      - prod
+      - local
+  IS_TEST:
+    Description: テスト実行フラグ
+    Type: String
+    Default: false
+    AllowedValues:
+      - true
+      - false
 
 Resources:
   #################### API Gateway ####################
@@ -31,20 +50,18 @@ Resources:
         AllowCredentials: true
 
   #################### Lambda Function ####################
-  # APIの作成例
-  HelloWorldFunction:
+  ReviewPostFunction:
     Type: AWS::Serverless::Function
+    Description: レビュー投稿API
     Properties:
-      FunctionName: hello-world
+      FunctionName: review-post
       Role: arn:aws:iam::328715503375:role/iife-app-sam
       CodeUri: ./app
-      Handler: app.lambda_handler
-      Architectures:
-        - arm64
+      Handler: main.lambda_handler
       Events:
         ApiEvent:
           Type: Api
           Properties:
-            Path: /hello-world
-            Method: get
+            Path: /review
+            Method: post
             RestApiId: !Ref APIGateway
