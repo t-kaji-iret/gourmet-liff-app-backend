@@ -26,7 +26,7 @@ services:
     environment:
       - DATABASE_URL=mysql://user:password@db/my_database
     depends_on:
-      mysql:
+      db:
         condition: service_healthy
     networks:
       - backend
